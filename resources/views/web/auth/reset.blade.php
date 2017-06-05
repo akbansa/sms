@@ -60,7 +60,14 @@
 		  </div>
 		@endif
 
-		<br>
+		<p>
+		@if(session('reset_password_exception'))
+		  <div class="alert alert-danger alert-block">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<strong>{{ session('reset_password_exception') }}</strong>
+		  </div>
+		@endif
+		</p>
 		<label class="label" for="js-reset-btn">
 		  <input id="reset-btn" class="btn btn-info" type="submit" value="Reset"/>
 		</label>

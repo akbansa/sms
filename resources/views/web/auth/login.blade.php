@@ -169,7 +169,6 @@
 				</div>
 			  @endif
 
-			  <br>
 			  <label class="label" for="js-forgot-btn">
 				<input id="forgot-btn" class="btn btn-success" type="submit" value="Get Password"/>
 			  </label>

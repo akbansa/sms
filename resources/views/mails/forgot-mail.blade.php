@@ -1,5 +1,5 @@
 <h1>Reset Password</h1>
 
-<p>
-  <a href="{{$reset_token}}">Reset</a>
+<p style="text-align: center;">
+  <a href="{{$reset_token}}">Reset Password</a>
 </p>

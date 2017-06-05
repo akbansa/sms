@@ -5,6 +5,14 @@
 @section('content')
   <div class="row">
 	<div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6 col-sm-12 vertical-alignment-content">
+
+	  @if (session('exception_message'))
+		<div class="alert alert-danger alert-block">
+		  <button type="button" class="close" data-dismiss="alert">×</button>
+		  <strong>{{ session('exception_message') }}</strong>
+		</div>
+	  @endif
+
 	  <div class="panel panel-success">
 		<div class="panel-heading">Add Student</div>
 		  <div class="panel-body">

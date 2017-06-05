@@ -7,6 +7,11 @@ use Hash,
 
 class ResetPasswordRepository
 {
+
+  public function checkTokenEmail($email) {
+    return PasswordReset::where('email', $email)->first();
+  }
+
   public function forgotPassword($email) {
 
     $password_reset = PasswordReset::where('email', $email)->first();

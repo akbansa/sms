@@ -28,7 +28,6 @@ $(function () {
                 method : "DELETE",
                 data : form
             }).done(function (response) {
-                /*alert("Record has been deleted successfully!");*/
                 location.reload();
             }).fail(function () {
                 alert("Record cannot be delete!");

@@ -36,9 +36,10 @@ class UserService{
         'password' => Hash::make($input['password'])
     ];
 
-    $user = $this->userRepo->register($input);
-
-    Auth::login($user);
+    if($user = $this->userRepo->register($input))
+      Auth::login($user);
+    else
+      throw new AuthenticationException("There is some error",400);
 
   }
 
@@ -57,12 +58,12 @@ class UserService{
     ];
 
     if (!auth()->attempt($input,$remember)) {
-      throw new AuthenticationException();
+      throw new AuthenticationException("Your email or password is incorrect!",401);
     }
 
   }
 
-  public function sendToken($input){
+  public function sendResetPasswordToken($input) {
 
     $this->validator->fire($input,'forgot');
 
@@ -76,9 +77,18 @@ class UserService{
 
     $this->validator->fire($input, 'reset');
 
-    $this->resetPasswordRepo->reset($input);
+    $check = $this->resetPasswordRepo->checkTokenEmail($input['email']);
 
-    $this->userRepo->reset($input);
+    if($check->token == $input['token']) {
+
+      $this->resetPasswordRepo->reset($input);
+
+      $this->userRepo->reset($input);
+    }
+    else
+    {
+      throw new AuthenticationException("You cannot change password for this email with this password reset link!",400);
+    }
 
   }
 

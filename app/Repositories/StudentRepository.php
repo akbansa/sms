@@ -6,42 +6,39 @@ use App\Models\Student;
 
 class StudentRepository {
 
-    public function get($user){
+  public function get($user){
 
-      return $user->students;
-    }
+    return $user->students;
+  }
 
-    public function find($id){
+  public function find($id){
 
-        $data = Student::findOrFail($id);
+    return Student::findOrFail($id);
+  }
 
-        return $data;
-    }
+  public function student_with_interests_array($student){
 
-    public function student_with_interests_array($student){
+    $student->interests = $student->interests->pluck('id')->all();
 
-        $student->interests = $student->interests->pluck('id')->all();
+    return $student;
+  }
+  public function create($data){
 
-        return $student;
-    }
-    public function create($data){
+    return auth()->user()->students()->create($data);
+  }
 
-        return auth()->user()->students()->create($data);
-    }
+  public function update($student,$data){
 
-    public function update($student,$data){
+    $student->update($data);
+  }
 
-        auth()->user()->students()
-              ->where('id',$student['id'])->update($data);
-    }
+  public function delete($student)
+  {
+    $student->delete();
+  }
 
-    public function delete($student)
-    {
-        auth()->user()->students()->delete($student);
-    }
-
-    public function syncInterests($student, $interests) {
-        $student->interests()->sync($interests);
-    }
+  public function syncInterests($student, $interests) {
+    $student->interests()->sync($interests);
+  }
 
 }

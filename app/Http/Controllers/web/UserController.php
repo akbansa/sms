@@ -6,7 +6,6 @@ use Auth,
     Illuminate\Http\Request,
     App\Services\UserService,
     App\Http\Controllers\Controller,
-    App\Exceptions\RegistrationException,
     App\Exceptions\AuthenticationException;
 
 
@@ -72,7 +71,7 @@ class UserController extends Controller {
       return redirect()->route('student.view')
           ->with('message','Your account has been successfully registered!');
 
-    } catch (RegistrationException $e) {
+    } catch (AuthenticationException $e) {
 
       return redirect()->back()
           ->with('registration_exception', $e->getMessage())
@@ -81,27 +80,35 @@ class UserController extends Controller {
 
   }
 
-  public function showReset($token){
+  public function showResetPasswordView($token){
 
     return view('web.auth.reset', ['token' => $token]);
   }
 
-  public function doReset(Request $request){
+  public function doResetPassword(Request $request){
 
-    $input  = $request->all();
+    try{
+      $input = $request->all();
 
-    $this->userService->resetPassword($input);
+      $this->userService->resetPassword($input);
 
-    return redirect()->route('user.login.get')
-        ->with('message','Your password has been successfully changed!');
+      return redirect()->route('user.login.get')
+          ->with('message','Your password has been successfully changed!');
+
+    } catch(AuthenticationException $e){
+
+      return redirect()->back()
+          ->with('reset_password_exception', $e->getMessage())
+          ->withInput($input);
+    }
 
   }
 
-  public function sendToken(Request $request) {
+  public function sendResetPasswordToken(Request $request) {
 
-    $input  = $request->all();
+    $input = $request->all();
 
-    $this->userService->sendToken($input);
+    $this->userService->sendResetPasswordToken($input);
 
     return redirect()->route('user.login.get')
         ->with('message','Your password has been sent to your mail');

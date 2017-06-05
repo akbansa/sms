@@ -33,8 +33,7 @@ class UserValidator extends Validator
         $rules = [
             'email' => 'bail|required|custom_email|exists:password_resets,email',
             'password' => 'required|min:8|confirmed',
-            'password_confirmation' => 'required',
-            'token' =>  'required|exists:password_resets,token'
+            'password_confirmation' => 'required'
         ];
         break;
 
@@ -47,8 +46,9 @@ class UserValidator extends Validator
       case 'login':
         $rules = [
             'loginEmail' => 'bail|required|custom_email|exists:users,email',
-            'loginPassword' => 'required|min:8'
+            'loginPassword' => 'required_with:loginEmail|min:8'
         ];
+        break;
     }
     return $rules;
   }
