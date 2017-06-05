@@ -44,7 +44,11 @@
             <td>
             @if(count($student->interests)>0)
               @foreach($student->interests->pluck('name') as $interest)
-                {{$interest}},
+                @if ($loop->last)
+				  {{$interest}}
+				@else
+				  {{$interest}},
+				@endif
               @endforeach
             @else
               -

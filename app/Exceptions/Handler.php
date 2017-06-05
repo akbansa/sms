@@ -44,6 +44,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+      switch ($exception) {
+        case $exception instanceof StudentException:
+            return view('errors.403');
+            break;
+      }
       return parent::render($request, $exception);
     }
 

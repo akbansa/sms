@@ -64,9 +64,10 @@ class StudentsController extends Controller{
 
       return view('web.student.edit', compact(['student','interests']));
 
-    } catch (StudentException $e) {
+    } catch (\Exception $e) {
 
-      return view('errors.403');
+      throw new StudentException($e->getMessage(), $e->getCode() ? $e->getCode() : 400);
+
     }
 
   }

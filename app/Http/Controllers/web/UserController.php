@@ -37,7 +37,7 @@ class UserController extends Controller {
 
       return redirect()->route('student.view');
     }
-    return view('web.auth.login');
+    return view('web.auth.index');
   }
 
   /**
