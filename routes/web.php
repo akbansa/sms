@@ -14,15 +14,15 @@
 /* User Routes */
     Route::get('/','UserController@showLogin')->name('user.login.get');
 
-    Route::post('login','UserController@doLogin')->name('user.login.post');
+    Route::post('login','UserController@login')->name('user.login.post');
 
-    Route::post('register','UserController@doRegister')->name('user.register.post');
+    Route::post('register','UserController@register')->name('user.register.post');
 
     Route::post('send-reset-password-token','UserController@sendResetPasswordToken')->name('user.forgot.post');
 
     Route::get('reset/{reset_token}','UserController@showResetPasswordView')->name('user.reset.get');
 
-    Route::post('reset','UserController@doResetPassword')->name('user.reset.post');
+    Route::post('reset','UserController@resetPassword')->name('user.reset.post');
 
 
     Route::group(['middleware'  =>  'auth'],function () {
@@ -32,13 +32,13 @@
 
       Route::get('student/{id}/edit', ['uses'=>'StudentsController@showEdit'])->name('student.edit.get');
 
-      Route::put('student/{id}', ['uses'=>'StudentsController@doEdit'])->name('student.edit.put');
+      Route::put('student/{id}', ['uses'=>'StudentsController@update'])->name('student.edit.put');
 
       Route::delete('student/{id}', ['uses'=>'StudentsController@delete'])->name('student.delete');
 
       Route::get('student/create','StudentsController@showCreate')->name('student.create.get');
 
-      Route::post('student/create','StudentsController@doCreate')->name('student.create.post');
+      Route::post('student/create','StudentsController@create')->name('student.create.post');
 
       /* User Routes */
       Route::get('logout','UserController@logout')->name('user.logout');

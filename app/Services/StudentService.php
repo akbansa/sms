@@ -29,15 +29,19 @@ class StudentService {
   }
 
   /**
+   * get student of user
+   *
    * @param $user
    * @return mixed
    */
   public function getStudentsForUser($user) {
 
-    return $this->studentRepo->get($user);
+    return $this->studentRepo->getStudentsForUser($user);
   }
 
   /**
+   * find student by id
+   *
    * @param $id
    * @return mixed
    */
@@ -51,6 +55,8 @@ class StudentService {
   }
 
   /**
+   * all interests
+   *
    * @return mixed
    */
   public function getInterests(){
@@ -59,17 +65,20 @@ class StudentService {
   }
 
   /**
+   * if user is allowed to access student
    * @param $input
    * @throws StudentException
    */
-  public function checkAuthenticatedUser($input) {
+  public function checkAuthenticatedUser($student) {
 
-    if ($input->user_id != auth()->user()->id)
+    if ($student->user_id != auth()->user()->id)
       throw new StudentException('You are trying to access non authorized data.', 403);
 
   }
 
   /**
+   * create a student
+   *
    * @param $inputs
    * @throws StudentException
    */
@@ -84,48 +93,48 @@ class StudentService {
         'year'=>$inputs['year']
     ];
 
-    if($student = $this->studentRepo->create($inputs)) {
+    $student = $this->studentRepo->create($inputs);
 
-      if (!isset($inputs['interests']))
-        $input['interests'] = [];
-      else
-        $input['interests'] = $inputs['interests'];
-
-      $this->studentRepo->syncInterests($student, $input['interests']);
-    }
-
+    if (!isset($inputs['interests']))
+      $input['interests'] = [];
     else
-      throw new StudentException("There is some error!");
+      $input['interests'] = $inputs['interests'];
+
+    $this->studentRepo->syncInterests($student, $input['interests']);
 
   }
 
   /**
+   * update a student
+   *
    * @param $id
    * @param $inputs
    */
-  public function update($id, $inputs){
+  public function update($id, $inputs) {
 
-  $this->validator->fire($inputs,'update');
+    $this->validator->fire($inputs,'update');
 
-  $student = $this->studentRepo->find($id);
+    $student = $this->studentRepo->find($id);
 
-  $input = [
-      'name'=>$inputs['name'],
-      'address'=>$inputs['address'],
-      'gender'=>$inputs['gender'],
-      'year'=>$inputs['year']
-  ];
+    $input = [
+        'name'=>$inputs['name'],
+        'address'=>$inputs['address'],
+        'gender'=>$inputs['gender'],
+        'year'=>$inputs['year']
+    ];
 
-  $this->studentRepo->update($student, $input);
+    $this->studentRepo->update($student, $input);
 
-  if (!isset($inputs['interests']))
-    $inputs['interests'] = [];
+    if (!isset($inputs['interests']))
+      $inputs['interests'] = [];
 
-  $this->studentRepo->syncInterests($student, $inputs['interests']);
+    $this->studentRepo->syncInterests($student, $inputs['interests']);
 
   }
 
   /**
+   * delete a student
+   *
    * @param $id
    */
   public function delete($id){

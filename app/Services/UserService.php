@@ -14,6 +14,9 @@ use App\Mail\PasswordReset;
 
 class UserService{
 
+  /**
+   * @var UserRepository
+   */
   protected $userRepo,$validator,$resetPasswordRepo;
   
   public function __construct(
@@ -26,7 +29,12 @@ class UserService{
     $this->resetPasswordRepo  = $resetPasswordRepository;
   }
 
-  public function register($input){
+  /**
+   * register the user and login
+   *
+   * @param $input
+   */
+  public function register($input) {
 
     $this->validator->fire($input, 'register');
 
@@ -36,58 +44,72 @@ class UserService{
         'password' => Hash::make($input['password'])
     ];
 
-    if($user = $this->userRepo->register($input))
-      Auth::login($user);
-    else
-      throw new AuthenticationException("There is some error",400);
+    $user = $this->userRepo->register($input);
+
+    Auth::login($user);
 
   }
 
+  /**
+   * login
+   *
+   * @param $input
+   * @throws AuthenticationException
+   */
   public function login($input){
 
     $this->validator->fire($input, 'login');
-
-    if (isset($input['remember']))
-      $remember = true;
-    else
-      $remember = false;
 
     $input = [
         'email' =>  $input['loginEmail'],
         'password'  =>  $input['loginPassword']
     ];
 
-    if (!auth()->attempt($input,$remember)) {
-      throw new AuthenticationException("Your email or password is incorrect!",401);
+    if (!auth()->attempt($input, isset($input['remember']))) {
+      throw new AuthenticationException("Your credentials are incorrect!",401);
     }
 
   }
 
+  /**
+   * generate token and send mail
+   *
+   * @param $input
+   */
   public function sendResetPasswordToken($input) {
 
     $this->validator->fire($input,'forgot');
 
-    $reset_token = $this->resetPasswordRepo->forgotPassword($input['forgotEmail']);
+    $reset_token = $this->resetPasswordRepo->generateToken($input['forgotEmail']);
 
     Mail::to($input['forgotEmail'])->send(new PasswordReset($reset_token));
 
   }
 
+  /**
+   * update user's password
+   *
+   * @param $input
+   * @throws AuthenticationException
+   */
   public function resetPassword($input) {
 
     $this->validator->fire($input, 'reset');
 
-    $check = $this->resetPasswordRepo->checkTokenEmail($input['email']);
+    $password_reset = $this->resetPasswordRepo->findFromEmail($input['email']);
 
-    if($check->token == $input['token']) {
+    if($password_reset->token == $input['token']) {
 
-      $this->resetPasswordRepo->reset($input);
+      $this->resetPasswordRepo->delete($input);
 
-      $this->userRepo->reset($input);
-    }
-    else
-    {
+      $user = $this->userRepo->findFromEmail($input['email']);
+
+      $this->userRepo->update($user, $input['password']);
+
+    } else {
+
       throw new AuthenticationException("You cannot change password for this email with this password reset link!",400);
+
     }
 
   }

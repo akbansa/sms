@@ -48,14 +48,14 @@
                                    @if(old('gender')==config('sms.static_variables.male')) checked
                                    @else
                                        @if($student->gender==config('sms.static_variables.male')) checked @endif
-                                   @endif/> Male
+                                   @endif required="required"/> Male
                         </label>
                         <label class="radio-inline">
                             <input name="gender" type="radio" value="{{config('sms.static_variables.female')}}"
                                    @if(old('gender')==config('sms.static_variables.female')) checked
                                    @else
                                        @if($student->gender==config('sms.static_variables.female')) checked @endif
-                                   @endif/> Female
+                                   @endif required="required"/> Female
                         </label>
                         @if($errors->has('gender'))
                             <div class="alert alert-danger alert-block">
@@ -69,7 +69,7 @@
 
                         {{-- Passing Year --}}
                         <label class="label" for="year">
-                            <select id="year" name="year" class="form-control">
+                            <select id="year" name="year" class="form-control" required="required">
                                 <option selected disabled>Select Year</option>
                                 @for($i=date('Y');$i>=date('Y')-10;$i--)
                                     <option value="{{ $i }}"

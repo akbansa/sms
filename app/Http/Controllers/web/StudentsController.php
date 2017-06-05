@@ -28,6 +28,8 @@ class StudentsController extends Controller{
   }
 
   /**
+   * show all students of a user
+   *
    * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
    */
   public function showAll(){
@@ -38,6 +40,8 @@ class StudentsController extends Controller{
   }
 
   /**
+   * show create student page
+   *
    * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
    */
   public function showCreate() {
@@ -48,13 +52,15 @@ class StudentsController extends Controller{
   }
 
   /**
+   * show student edit page
+   *
    * @param $id
    * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
    * @throws StudentException
    */
   public function showEdit($id){
 
-    try{
+    try {
 
       $student = $this->studentService->find($id);
 
@@ -62,7 +68,7 @@ class StudentsController extends Controller{
 
       $interests = $this->studentService->getInterests();
 
-      return view('web.student.edit', compact(['student','interests']));
+      return view('web.student.edit', compact(['student', 'interests']));
 
     } catch (\Exception $e) {
 
@@ -73,11 +79,13 @@ class StudentsController extends Controller{
   }
 
   /**
+   * update student details
+   *
    * @param $id
    * @param Request $request
    * @return \Illuminate\Http\RedirectResponse
    */
-  public function doEdit($id,Request $request) {
+  public function update($id,Request $request) {
 
     $input = $request->all();
 
@@ -87,6 +95,8 @@ class StudentsController extends Controller{
   }
 
   /**
+   * delete student
+   *
    * @param $id
    * @return \Illuminate\Http\JsonResponse
    */
@@ -110,10 +120,12 @@ class StudentsController extends Controller{
   }
 
   /**
+   * create student
+   *
    * @param Request $request
    * @return \Illuminate\Http\RedirectResponse
    */
-  public function doCreate(Request $request){
+  public function create(Request $request){
 
     try{
 

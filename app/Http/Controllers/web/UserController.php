@@ -34,25 +34,18 @@ class UserController extends Controller {
   public function showLogin() {
 
     if(auth()->check()) {
-
       return redirect()->route('student.view');
     }
+
     return view('web.auth.index');
-  }
 
-  /**
-   * @return string
-   */
-  public function redirectTo() {
-
-    return route('student.view');
   }
 
   /**
    * @param Request $request
    * @return $this|\Illuminate\Http\RedirectResponse
    */
-  public function doLogin(Request $request){
+  public function login(Request $request){
 
     try {
 
@@ -72,21 +65,26 @@ class UserController extends Controller {
   }
 
   /**
+   * logout
+   *
    * @return \Illuminate\Http\RedirectResponse
    */
   public function logout(){
 
     Auth::logout();
 
-    return redirect()->route('user.login.get')->with('message','You are logged out!');
+    return redirect()->route('user.login.get')
+        ->with('message','You are logged out!');
 
   }
 
   /**
+   * register the user
+   *
    * @param Request $request
    * @return $this|\Illuminate\Http\RedirectResponse
    */
-  public function doRegister(Request $request){
+  public function register(Request $request){
 
     try{
 
@@ -97,7 +95,7 @@ class UserController extends Controller {
       return redirect()->route('student.view')
           ->with('message','Your account has been successfully registered!');
 
-    } catch (AuthenticationException $e) {
+    } catch (\Exception $e) {
 
       return redirect()->back()
           ->with('registration_exception', $e->getMessage())
@@ -107,6 +105,8 @@ class UserController extends Controller {
   }
 
   /**
+   * show reset password page
+   *
    * @param $token
    * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
    */
@@ -116,10 +116,12 @@ class UserController extends Controller {
   }
 
   /**
+   * reset the user's password
+   *
    * @param Request $request
    * @return $this|\Illuminate\Http\RedirectResponse
    */
-  public function doResetPassword(Request $request){
+  public function resetPassword(Request $request){
 
     try{
       $input = $request->all();
@@ -139,6 +141,8 @@ class UserController extends Controller {
   }
 
   /**
+   * send reset password token in mail
+   *
    * @param Request $request
    * @return \Illuminate\Http\RedirectResponse
    */

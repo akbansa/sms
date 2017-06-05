@@ -8,11 +8,23 @@ use Hash,
 class ResetPasswordRepository
 {
 
-  public function checkTokenEmail($email) {
+  /**
+   * find user by email
+   *
+   * @param $email
+   * @return mixed
+   */
+  public function findFromEmail($email) {
     return PasswordReset::where('email', $email)->first();
   }
 
-  public function forgotPassword($email) {
+  /**
+   * generate password reset token
+   *
+   * @param $email
+   * @return bool|string
+   */
+  public function generateToken($email) {
 
     $password_reset = PasswordReset::where('email', $email)->first();
 
@@ -32,7 +44,12 @@ class ResetPasswordRepository
 
   }
 
-  public function reset($input){
+  /**
+   * delete password reset entry
+   *
+   * @param $input
+   */
+  public function delete($input){
 
     PasswordReset::where('email', $input['email'])
         ->delete();
