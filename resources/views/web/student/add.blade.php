@@ -22,7 +22,7 @@
 			  {{-- Name --}}
 			  <label class="label" for="name">
 			  	<input id="name" name="name" placeholder="Name" class="form-control" min="3"
-					   type="text" value="@if(old('name')) {{old('name')}} @endif"/>
+					   type="text" value="@if(old('name')) {{old('name')}} @endif" required="required"/>
 			  </label>
 			  @if($errors->has('name'))
 				<div class="alert alert-danger alert-block">
@@ -36,7 +36,7 @@
 			  {{-- Address --}}
 			  <label class="label" for="address">
 				<textarea id="address" name="address" placeholder="Address" rows="5"
-						class="form-control">@if(old('address')){{old('address')}}@endif</textarea>
+						class="form-control" required="required">@if(old('address')){{old('address')}}@endif</textarea>
 			  </label>
 			  @if($errors->has('address'))
 				<div class="alert alert-danger alert-block">
@@ -51,11 +51,11 @@
 			  {{-- Gender --}}
 			  <label class="radio-inline">
 				<input name="gender" type="radio" value="{{config('sms.static_variables.male')}}"
-					 @if(old('gender')==config('sms.static_variables.male')) checked @endif/> Male
+					 @if(old('gender')==config('sms.static_variables.male')) checked @endif required="required"/> Male
 			  </label>
 			  <label class="radio-inline">
 				<input name="gender" type="radio" value="{{config('sms.static_variables.female')}}"
-					 @if(old('gender')==config('sms.static_variables.female')) checked @endif/> Female
+					 @if(old('gender')==config('sms.static_variables.female')) checked @endif required="required"/> Female
 			  </label>
 			  @if($errors->has('gender'))
 				<div class="alert alert-danger alert-block">
@@ -69,7 +69,7 @@
 
 			  {{-- Passing Year --}}
 			  <label class="label" for="year">
-				<select id="year" name="year" class="form-control">
+				<select id="year" name="year" class="form-control" required="required">
 				  <option selected disabled>Select Year</option>
 				  @for($i=date('Y');$i>=date('Y')-10;$i--)
 					<option value="{{ $i }}" @if(old('year') == $i) selected @endif>{{$i}}</option>
