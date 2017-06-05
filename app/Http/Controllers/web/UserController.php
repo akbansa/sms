@@ -95,7 +95,7 @@ class UserController extends Controller {
       return redirect()->route('student.view')
           ->with('message','Your account has been successfully registered!');
 
-    } catch (\Exception $e) {
+    } catch (AuthenticationException $e) {
 
       return redirect()->back()
           ->with('registration_exception', $e->getMessage())
