@@ -95,7 +95,7 @@ class UserValidator extends Validator
 
       case 'register':
         return [
-            'unique'  =>  'Account already exists!'
+            'unique'  =>  'Account already exist!'
         ];
         break;
 
@@ -108,13 +108,13 @@ class UserValidator extends Validator
 
       case 'login':
         return [
-            'exists'  =>  'The account doesn\'t exists!'
+            'exists'  =>  'The account doesn\'t exist!'
         ];
         break;
 
       case 'forgot':
         return [
-            'exists'  =>  'The account doesn\'t exists!'
+            'exists'  =>  'The account doesn\'t exist!'
         ];
         break;
 
