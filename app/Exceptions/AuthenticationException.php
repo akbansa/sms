@@ -2,8 +2,8 @@
 
 namespace App\Exceptions;
 
-use Exception;
-use Throwable;
+use Exception,
+    Throwable;
 
 class AuthenticationException extends Exception{
 

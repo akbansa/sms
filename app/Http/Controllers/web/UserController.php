@@ -6,6 +6,7 @@ use Auth,
     Illuminate\Http\Request,
     App\Services\UserService,
     App\Http\Controllers\Controller,
+    App\Exceptions\RegistrationException,
     App\Exceptions\AuthenticationException;
 
 
@@ -25,7 +26,6 @@ class UserController extends Controller {
 
       return redirect()->route('student.view');
     }
-
     return view('web.auth.login');
   }
 
@@ -63,12 +63,21 @@ class UserController extends Controller {
 
   public function doRegister(Request $request){
 
-    $inputs = $request->all();
+    try{
 
-    $this->userService->register($inputs);
+      $inputs = $request->all();
 
-    return redirect()->route('student.view')
-        ->with('message','Your account has been successfully registered!');
+      $this->userService->register($inputs);
+
+      return redirect()->route('student.view')
+          ->with('message','Your account has been successfully registered!');
+
+    } catch (RegistrationException $e) {
+
+      return redirect()->back()
+          ->with('registration_exception', $e->getMessage())
+          ->withInput($inputs);
+    }
 
   }
 
@@ -96,7 +105,6 @@ class UserController extends Controller {
 
     return redirect()->route('user.login.get')
         ->with('message','Your password has been sent to your mail');
-
 
   }
 

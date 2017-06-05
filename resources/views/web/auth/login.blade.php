@@ -59,14 +59,14 @@
 
 					<input name="remember" id="remember" type="checkbox"/> Remember Me
 
-				    <p>
+				  <p>
 				  @if(session('invalid_login_credentials'))
 					<div class="alert alert-danger alert-block">
 					  <button type="button" class="close" data-dismiss="alert">×</button>
 					  <strong>{{ session('invalid_login_credentials') }}</strong>
 					</div>
-					@endif
-					</p>
+				  @endif
+				  </p>
 				  	<label class="label" for="js-login-btn">
                         <input id="login-btn" class="btn btn-info" type="submit" value="Login"/>
                     </label>
@@ -80,7 +80,7 @@
 				  <input type="hidden" name="tab" value="register"/>
 
 				  <label class="label" for="name">
-					  <input name="name" id="name" placeholder="Name" class="form-control" type="text" min="3"
+					  <input name="name" placeholder="Name" class="form-control" type="text" min="3"
 							 required="required" value="@if(old('name')){{old('name')}}@endif"/>
 				  </label>
 				  @if($errors->has('name'))
@@ -94,7 +94,7 @@
 
 				  {{-- Email --}}
 				  <label class="label" for="emailRegister">
-					  <input name="email" id="emailRegister" placeholder="Email" class="form-control" type="email"
+					  <input name="email" placeholder="Email" class="form-control" type="email"
 							 required="required" value="@if(old('email')){{old('email')}}@endif"/>
 				  </label>
 				  @if($errors->has('email'))
@@ -134,7 +134,15 @@
 					</div>
 				  @endif
 
-				  <br>
+				  <p>
+				  @if(session('registration_exception'))
+					<div class="alert alert-danger alert-block">
+					  <button type="button" class="close" data-dismiss="alert">×</button>
+					  <strong>{{ session('registration_exception') }}</strong>
+					</div>
+				  @endif
+				  </p>
+
 				  <label class="label" for="register-btn">
 					  <input id="register-btn" class="btn btn-info" type="submit" value="Register"/>
 				  </label>

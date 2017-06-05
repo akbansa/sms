@@ -14,7 +14,7 @@ use App\Mail\PasswordReset;
 
 class UserService{
 
-  protected $userRepo,$validator,$resetPassworRepo;
+  protected $userRepo,$validator,$resetPasswordRepo;
   
   public function __construct(
       UserRepository $userRepository,
@@ -46,15 +46,15 @@ class UserService{
 
     $this->validator->fire($input, 'login');
 
+    if (isset($input['remember']))
+      $remember = true;
+    else
+      $remember = false;
+
     $input = [
         'email' =>  $input['loginEmail'],
         'password'  =>  $input['loginPassword']
     ];
-
-    if (!isset($input['remember']))
-      $remember = false;
-    else
-      $remember = true;
 
     if (!auth()->attempt($input,$remember)) {
       throw new AuthenticationException();

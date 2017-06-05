@@ -18,7 +18,7 @@
 
     Route::post('register','UserController@doRegister')->name('user.register.post');
 
-    Route::post('forgot','UserController@sendToken')->name('user.forgot.post');
+    Route::post('send-password','UserController@sendToken')->name('user.forgot.post');
 
     Route::get('reset/{reset_token}','UserController@showReset')->name('user.reset.get');
 

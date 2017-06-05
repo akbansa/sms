@@ -2,7 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
+use Hash,
+    App\Models\User;
 
 class UserRepository{
 
