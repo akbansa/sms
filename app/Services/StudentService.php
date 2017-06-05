@@ -28,11 +28,19 @@ class StudentService {
     $this->validator  = $studentValidator;
   }
 
+  /**
+   * @param $user
+   * @return mixed
+   */
   public function getStudentsForUser($user) {
 
     return $this->studentRepo->get($user);
   }
 
+  /**
+   * @param $id
+   * @return mixed
+   */
   public function find($id){
 
     $student = $this->studentRepo->find($id);
@@ -42,11 +50,18 @@ class StudentService {
     return $student;
   }
 
+  /**
+   * @return mixed
+   */
   public function getInterests(){
 
     return $this->interestRepo->get();
   }
 
+  /**
+   * @param $input
+   * @throws StudentException
+   */
   public function checkAuthenticatedUser($input) {
 
     if ($input->user_id != auth()->user()->id)
@@ -54,6 +69,10 @@ class StudentService {
 
   }
 
+  /**
+   * @param $inputs
+   * @throws StudentException
+   */
   public function create($inputs){
 
     $this->validator->fire($inputs,'create');
@@ -80,6 +99,10 @@ class StudentService {
 
   }
 
+  /**
+   * @param $id
+   * @param $inputs
+   */
   public function update($id, $inputs){
 
   $this->validator->fire($inputs,'update');
@@ -102,6 +125,9 @@ class StudentService {
 
   }
 
+  /**
+   * @param $id
+   */
   public function delete($id){
 
     $student = $this->studentRepo->find($id);

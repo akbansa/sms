@@ -8,17 +8,29 @@ use Auth,
     App\Http\Controllers\Controller,
     App\Exceptions\AuthenticationException;
 
-
+/**
+ * Class UserController
+ * @package App\Http\Controllers\web
+ */
 class UserController extends Controller {
 
+  /**
+   * @var UserService
+   */
   protected $userService;
 
+  /**
+   * UserController constructor.
+   * @param UserService $userService
+   */
   public function __construct(UserService $userService){
 
     $this->userService = $userService;
   }
 
-
+  /**
+   * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+   */
   public function showLogin() {
 
     if(auth()->check()) {
@@ -28,11 +40,18 @@ class UserController extends Controller {
     return view('web.auth.login');
   }
 
+  /**
+   * @return string
+   */
   public function redirectTo() {
 
     return route('student.view');
   }
 
+  /**
+   * @param Request $request
+   * @return $this|\Illuminate\Http\RedirectResponse
+   */
   public function doLogin(Request $request){
 
     try {
@@ -52,6 +71,9 @@ class UserController extends Controller {
 
   }
 
+  /**
+   * @return \Illuminate\Http\RedirectResponse
+   */
   public function logout(){
 
     Auth::logout();
@@ -60,6 +82,10 @@ class UserController extends Controller {
 
   }
 
+  /**
+   * @param Request $request
+   * @return $this|\Illuminate\Http\RedirectResponse
+   */
   public function doRegister(Request $request){
 
     try{
@@ -80,11 +106,19 @@ class UserController extends Controller {
 
   }
 
+  /**
+   * @param $token
+   * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+   */
   public function showResetPasswordView($token){
 
     return view('web.auth.reset', ['token' => $token]);
   }
 
+  /**
+   * @param Request $request
+   * @return $this|\Illuminate\Http\RedirectResponse
+   */
   public function doResetPassword(Request $request){
 
     try{
@@ -104,6 +138,10 @@ class UserController extends Controller {
 
   }
 
+  /**
+   * @param Request $request
+   * @return \Illuminate\Http\RedirectResponse
+   */
   public function sendResetPasswordToken(Request $request) {
 
     $input = $request->all();

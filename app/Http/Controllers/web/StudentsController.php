@@ -6,7 +6,6 @@ use App\Exceptions\StudentException;
 use Illuminate\Http\Request,
     App\Services\StudentService,
     App\Http\Controllers\Controller;
-use JakubOnderka\PhpConsoleColor\InvalidStyleException;
 
 /**
  * Class StudentsController
